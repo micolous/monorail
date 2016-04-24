@@ -2,7 +2,7 @@
 monorail
 ========
 
-A Python library for interfacing with [Transport for NSW's Open Data portal](https://opendata.transport.nsw.gov.au/).
+A Python library for interfacing with `Transport for NSW's Open Data portal <https://opendata.transport.nsw.gov.au/>`_.
 
 This is currently a work in progress.
 
