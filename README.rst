@@ -40,7 +40,7 @@ Usage::
 
 These APIs can then be loaded into ``swagger-codegen`` with `some caveats <http://opendata.transport.nsw.gov.au/forum/t/swagger-api-schema-has-multiple-errors/94>`_::
 
-	$ java -jar swagger-codegen-cli.jar generate -i swag/v1_gtfs_vehiclepos.json -l python -o swag/vehiclepos/
+	$ java -jar swagger-codegen-cli.jar generate -i swag/v1_gtfs_vehiclepos.json -l python -o apis/vehiclepos/
 
 And then used with some Python code::
 
