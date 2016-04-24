@@ -40,7 +40,7 @@ Usage::
 
 These APIs can then be loaded into ``swagger-codegen`` with `some caveats <http://opendata.transport.nsw.gov.au/forum/t/swagger-api-schema-has-multiple-errors/94>`_::
 
-	$ java -jar swagger-codegen-cli.jar generate -i swag/v1_gtfs_vehiclepos.json -l python -o apis/vehiclepos/
+	$ java -jar swagger-codegen-cli.jar generate -i apis/v1_gtfs_vehiclepos.json -l python -o apis/vehiclepos/
 
 And then used with some Python code::
 
@@ -59,5 +59,45 @@ And then used with some Python code::
 
 	# Print out the path to the protobuf blob
 	print res
+
+swaggify
+--------
+
+Refactors TfNSW's Swagger API in order to suck less:
+
+1. Merges all the APIs into a single Swagger schema.
+2. Real-time data APIs have consistent methods: ``alerts``, ``stop_times``, ``timetables``, ``vehicle_positions``.
+3. Removes cruft from the end of method identifiers.
+4. Makes all outputs ``file`` so that they can be actually used with the API.
+5. Attempts to setup OAuth2 (but doesn't yet fully work).
+6. Adds extra metadata to the schema to describe licensing and content-types.
+
+See the template file for more details (``monorail/base_tfnsw_api.json``).
+
+This requires that you have downloaded all the Swagger service descriptions
+previously (using ``get_swagger``).
+
+Example usage::
+
+	$ python -m monorail.tools.swaggify -t monorail/base_tfnsw_api.json -o apis/tfnsw_api.json apis/v1_*.json
+	$ java -jar swagger-codegen-cli.jar generate -i apis/tfnsw_api.json -o apis/tfnsw_api -l python
+	$ cd apis/tfnsw_api
+	$ python
+	>>> import swagger_client
+	>>> dir(swagger_client)
+	['AlpineApi', 'ApiClient', 'BusesApi', 'CamerasApi', 'Configuration',
+	'Error', 'EventsApi', 'FacilitiesandoperatorsApi', 'FerriesApi', 'FireApi',
+	'FloodApi', 'GtfsApi', 'IncidentApi', 'LightrailApi', 'LoadingzonesApi',
+	'MajoreventApi', 'NswtrainsApi', 'OffstreetparkingApi', 'ProgressApi',
+	'RoadworkApi', 'RouteApi', 'StatusApi', 'SydneytrainsApi', 'TransxchangeApi',
+	'__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__',
+	'absolute_import', 'api_client', 'apis', 'configuration', 'models', 'rest']
+	>>> swagger_client.Configuration().auth_settings = lambda: {'oauth2': {'in': 'header', 'key': 'Authorization', 'value': 'Bearer xxxxxxx'}}
+	>>> syd_trains = swagger_client.SydneytrainsApi()
+	>>> syd_trains.vehicle_positions()
+	'/tmp/tmpXXXXXX'
+	
+	
+
 
 

@@ -1,0 +1,101 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Transport for NSW Open Data API",
+    "version": "1.0",
+    "license": {
+      "name": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    }
+  },
+  "host": "api.transport.nsw.gov.au",
+  "basePath": "/v1",
+  "schemes": ["https"],
+  "paths": {},
+  "definitions": {
+    "Error": {
+      "type": "object", 
+      "description": "Error response"
+    }
+  },
+  "securityDefinitions": {
+    "oauth2": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://api.transport.nsw.gov.au/auth/oauth/v2/token",
+      "scopes": {
+        "user": "user-defined scope"
+      }
+    }
+  },
+  "security": [{"oauth2": ["user"]}],
+  "tags": [
+    {
+      "name": "ferries",
+      "description": "Events on Sydney Ferries"
+    }, 
+    {
+      "name": "lightrail",
+      "description": "Events on Sydney Light Rail"
+    }, 
+    {
+      "name": "sydneytrains",
+      "description": "Events on Sydney's metropolitan and inter-city train network"
+    }, 
+    {
+      "name": "nswtrains",
+      "description": "Events on NSW's rural train network"
+    }, 
+    {
+      "name": "buses"
+    }, 
+    {
+      "name": "cameras"
+    }, 
+    {
+      "name": "alpine"
+    }, 
+    {
+      "name": "fire"
+    }, 
+    {
+      "name": "flood"
+    }, 
+    {
+      "name": "incident"
+    }, 
+    {
+      "name": "majorevent"
+    }, 
+    {
+      "name": "roadwork"
+    }, 
+    {
+      "name": "status"
+    }, 
+    {
+      "name": "facilitiesandoperators"
+    }, 
+    {
+      "name": "gtfs"
+    }, 
+    {
+      "name": "transxchange"
+    }, 
+    {
+      "name": "loadingzones"
+    }, 
+    {
+      "name": "offstreetparking"
+    }, 
+    {
+      "name": "events"
+    }, 
+    {
+      "name": "progress"
+    }, 
+    {
+      "name": "route"
+    }
+  ]
+}
