@@ -80,11 +80,12 @@ previously (using ``get_swagger``).
 Example usage::
 
 	$ python -m monorail.tools.swaggify -t monorail/base_tfnsw_api.json -o apis/tfnsw_api.json apis/v1_*.json
-	$ java -jar swagger-codegen-cli.jar generate -i apis/tfnsw_api.json -o apis/tfnsw_api -l python
+	$ java -jar swagger-codegen-cli.jar generate -i apis/tfnsw_api.json -o apis/tfnsw_api -l python -D packageName=tfnsw_api
 	$ cd apis/tfnsw_api
+	$ sudo python setup.py install
 	$ python
-	>>> import swagger_client
-	>>> dir(swagger_client)
+	>>> import tfnsw_api
+	>>> dir(tfnsw_api)
 	['AlpineApi', 'ApiClient', 'BusesApi', 'CamerasApi', 'Configuration',
 	'Error', 'EventsApi', 'FacilitiesandoperatorsApi', 'FerriesApi', 'FireApi',
 	'FloodApi', 'GtfsApi', 'IncidentApi', 'LightrailApi', 'LoadingzonesApi',
@@ -92,12 +93,29 @@ Example usage::
 	'RoadworkApi', 'RouteApi', 'StatusApi', 'SydneytrainsApi', 'TransxchangeApi',
 	'__builtins__', '__doc__', '__file__', '__name__', '__package__', '__path__',
 	'absolute_import', 'api_client', 'apis', 'configuration', 'models', 'rest']
-	>>> swagger_client.Configuration().auth_settings = lambda: {'oauth2': {'in': 'header', 'key': 'Authorization', 'value': 'Bearer xxxxxxx'}}
-	>>> syd_trains = swagger_client.SydneytrainsApi()
+	>>> tfnsw_api.Configuration().auth_settings = lambda: {'oauth2': {'in': 'header', 'key': 'Authorization', 'value': 'Bearer xxxxxxx'}}
+	>>> syd_trains = tfnsw_api.SydneytrainsApi()
 	>>> syd_trains.vehicle_positions()
 	'/tmp/tmpXXXXXX'
 	
-	
+gtfs_realtime
+-------------
+
+Using the generated ``tfnsw_api`` from ``swaggify``, this tool will constantly
+download timetables and real-time information from TfNSW.
+
+This is useful for working with other applications, as the GTFS ZIP and
+protobuf file will be saved in a folder for you to use.
+
+Usage::
+
+	$ python -m monorail.tools.gtfs_realtime -c 'client_id' -s 'client_secret' -o realtime
+
+This will by default grab real-time data every minute, and grab timetable data
+once per day.
+
+This tool slows down the requests in order to not exhaust the low quotas on the
+upstream server quickly.
 
 
 
