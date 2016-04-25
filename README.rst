@@ -97,7 +97,9 @@ Example usage::
 	>>> syd_trains = tfnsw_api.SydneytrainsApi()
 	>>> syd_trains.vehicle_positions()
 	'/tmp/tmpXXXXXX'
-	
+
+`The generated Python bindings are also available <https://github.com/micolous/tfnsw_api_python>`_.
+
 gtfs_realtime
 -------------
 
